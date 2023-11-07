@@ -11,21 +11,25 @@ on:
 
 jobs:
 
-  compilar:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ${{ matrix.os }}
     env:
       HOST: localhost
       PORT: 5432
       USER: root
       PASSWORD: root
       DBNAME: root
+    strategy:
+      matrix:
+        go_version: ['1.20', '1.18','>=1.20']
+        os: ['ubuntu-latest', 'ubuntu-18.04']
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Go
       uses: actions/setup-go@v4
       with:
-        go-version: '1.20'
+        go-version: ${{ matrix.go_version }}
 
     - name: Build
       run: go build -v ./...
