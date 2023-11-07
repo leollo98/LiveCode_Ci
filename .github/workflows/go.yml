@@ -13,6 +13,12 @@ jobs:
 
   compilar:
     runs-on: ubuntu-latest
+    env:
+      HOST: localhost
+      PORT: 5432
+      USER: root
+      PASSWORD: root
+      DBNAME: root
     steps:
     - uses: actions/checkout@v3
 
@@ -23,6 +29,9 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+
+    - name: docker-compose
+      run: docker-compose up -d
 
     - name: Test
       run: go test -v ./...
